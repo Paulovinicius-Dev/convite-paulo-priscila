@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      .title { font-family: Georgia, 'Times New Roman', serif; }
+      .body  { font-family: Arial, Helvetica, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#FFFFFF"/>
+  <rect x="36" y="36" width="1128" height="558" fill="none" stroke="#6B7A4F" stroke-width="1.2" opacity=".35"/>
+  <rect x="44" y="44" width="1112" height="542" fill="none" stroke="#6B7A4F" stroke-width=".5" opacity=".2"/>
+
+  <!-- Botanical TL -->
+  <g opacity=".55">
+    <path d="M0,400 C50,290 130,200 195,110 C240,50 275,14 305,0" stroke="#6B7A4F" stroke-width="1.8" fill="none"/>
+    <ellipse cx="108" cy="224" rx="28" ry="11" transform="rotate(-28 108 224)" fill="#8A9A5B" opacity=".7"/>
+    <ellipse cx="144" cy="178" rx="23" ry="10" transform="rotate(-44 144 178)" fill="#6B7A4F" opacity=".75"/>
+    <ellipse cx="185" cy="130" rx="20" ry="9" transform="rotate(-58 185 130)" fill="#AAB49B" opacity=".6"/>
+    <ellipse cx="76" cy="270" rx="18" ry="8" transform="rotate(-18 76 270)" fill="#8A9A5B" opacity=".55"/>
+    <ellipse cx="228" cy="82" rx="16" ry="7" transform="rotate(-70 228 82)" fill="#6B7A4F" opacity=".62"/>
+    <circle cx="120" cy="158" r="4" fill="#C9A96E" opacity=".45"/>
+    <circle cx="170" cy="112" r="3" fill="#C9A96E" opacity=".38"/>
+  </g>
+
+  <!-- Botanical BR -->
+  <g opacity=".55" transform="translate(1200,630) rotate(180)">
+    <path d="M0,400 C50,290 130,200 195,110 C240,50 275,14 305,0" stroke="#6B7A4F" stroke-width="1.8" fill="none"/>
+    <ellipse cx="108" cy="224" rx="28" ry="11" transform="rotate(-28 108 224)" fill="#8A9A5B" opacity=".7"/>
+    <ellipse cx="144" cy="178" rx="23" ry="10" transform="rotate(-44 144 178)" fill="#6B7A4F" opacity=".75"/>
+    <ellipse cx="185" cy="130" rx="20" ry="9" transform="rotate(-58 185 130)" fill="#AAB49B" opacity=".6"/>
+    <ellipse cx="76" cy="270" rx="18" ry="8" transform="rotate(-18 76 270)" fill="#8A9A5B" opacity=".55"/>
+    <circle cx="120" cy="158" r="4" fill="#C9A96E" opacity=".45"/>
+    <circle cx="170" cy="112" r="3" fill="#C9A96E" opacity=".38"/>
+  </g>
+
+  <!-- Botanical TR -->
+  <g opacity=".45" transform="translate(1200,0) scale(-1,1)">
+    <path d="M0,380 C45,275 118,188 178,100 C220,44 254,12 282,0" stroke="#6B7A4F" stroke-width="1.5" fill="none"/>
+    <ellipse cx="98" cy="210" rx="24" ry="10" transform="rotate(-28 98 210)" fill="#8A9A5B" opacity=".62"/>
+    <ellipse cx="132" cy="168" rx="20" ry="9" transform="rotate(-44 132 168)" fill="#6B7A4F" opacity=".7"/>
+    <ellipse cx="168" cy="120" rx="17" ry="8" transform="rotate(-58 168 120)" fill="#AAB49B" opacity=".55"/>
+    <circle cx="110" cy="148" r="3.5" fill="#C9A96E" opacity=".4"/>
+  </g>
+
+  <!-- Monogram circle -->
+  <circle cx="600" cy="200" r="72" fill="none" stroke="#6B7A4F" stroke-width="1.2" opacity=".3"/>
+  <circle cx="600" cy="200" r="64" fill="none" stroke="#6B7A4F" stroke-width=".6" opacity=".2"/>
+  <text x="600" y="222" text-anchor="middle" class="title" font-size="68" font-weight="300" fill="#6B7A4F" letter-spacing="4">P&amp;P</text>
+
+  <!-- Divider lines -->
+  <line x1="380" y1="290" x2="540" y2="290" stroke="#AAB49B" stroke-width="1"/>
+  <circle cx="600" cy="290" r="4" fill="#6B7A4F" opacity=".7" transform="rotate(45 600 290)"/>
+  <rect x="597" y="287" width="6" height="6" fill="#6B7A4F" opacity=".7" transform="rotate(45 600 290)"/>
+  <line x1="660" y1="290" x2="820" y2="290" stroke="#AAB49B" stroke-width="1"/>
+
+  <!-- Names -->
+  <text x="600" y="360" text-anchor="middle" class="title" font-size="52" font-weight="300" fill="#2C2C2C" letter-spacing="3">Paulo Vinicius</text>
+  <text x="600" y="410" text-anchor="middle" class="title" font-size="34" font-weight="300" fill="#6B7A4F" font-style="italic" letter-spacing="2">&amp;</text>
+  <text x="600" y="458" text-anchor="middle" class="title" font-size="52" font-weight="300" fill="#2C2C2C" letter-spacing="3">Priscila Soares</text>
+
+  <!-- Date & location -->
+  <text x="600" y="512" text-anchor="middle" class="body" font-size="14" font-weight="400" fill="#7A7A7A" letter-spacing="6">02 · 09 · 2026  ·  BRASÍLIA · DF</text>
+  <text x="600" y="546" text-anchor="middle" class="body" font-size="12" font-weight="300" fill="#AAB49B" letter-spacing="4">COCO BAMBU DF PLAZA</text>
+</svg>

@@ -1136,48 +1136,68 @@ function nextPhoto() { const imgs = getImgs(); if (!imgs.length) return; lbIdx =
 document.getElementById('lbox').addEventListener('click', e => { if (e.target === e.currentTarget) closeLightbox(); });
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeLightbox(); if (e.key==='ArrowLeft') prevPhoto(); if (e.key==='ArrowRight') nextPhoto(); });
 
-// ─── CONFIGURAÇÃO GOOGLE SHEETS ───────────────────────────────────────────
-// Após criar o Apps Script, cole a URL aqui:
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyuWvqm6t-v7AIkkyXjYCAStD03Dhs3aEJpRPB3F2fXvJynwzZ0jyhCh--10yI-0KMKOw/exec';
+// ─── CONFIGURAÇÃO DO BACKEND ───────────────────────────────────────────────
+// Após deploy no Railway, cole a URL aqui:
+const BACKEND_URL = 'COLE_AQUI_A_URL_DO_RAILWAY';
 // ──────────────────────────────────────────────────────────────────────────
 
-// RSVP — envia para Google Sheets e mostra confirmação
+// RSVP — envia para backend seguro no Railway
 async function submitRsvp(e) {
   e.preventDefault();
-  const btn = document.getElementById('btnSubmit');
+  const btn  = document.getElementById('btnSubmit');
+  const form = document.getElementById('rsvpForm');
   btn.disabled = true;
-  btn.classList.add('loading');
   btn.textContent = 'Enviando...';
 
-  const form = document.getElementById('rsvpForm');
-  const pagRadio = form.querySelector('input[name="pagamento"]:checked');
   const presRadio = form.querySelector('input[name="presenca"]:checked');
+  const pagRadio  = form.querySelector('input[name="pagamento"]:checked');
 
-  const data = {
-    data_hora: new Date().toLocaleString('pt-BR', {timeZone:'America/Sao_Paulo'}),
-    nome:         form.nome.value,
-    whatsapp:     form.tel.value,
-    email:        form.email.value,
-    presenca:     presRadio ? (presRadio.value === 'sim' ? '✅ Confirmado' : '❌ Não vai') : '',
-    acompanhantes: form.acomp.value,
-    restricoes:   form.rest.value,
-    pagamento:    pagRadio ? (pagRadio.value === 'sim' ? '💰 Pago' : '⏳ Pendente') : '⏳ Pendente',
-    mensagem:     form.msg.value
+  const payload = {
+    nome:          form.nome.value.trim(),
+    whatsapp:      form.tel.value.trim(),
+    email:         form.email.value.trim(),
+    presenca:      presRadio ? presRadio.value : 'nao',
+    acompanhantes: parseInt(form.acomp.value) || 0,
+    restricoes:    form.rest.value.trim(),
+    pagamento:     pagRadio ? pagRadio.value : 'nao',
+    mensagem:      form.msg.value.trim()
   };
 
   try {
-    if (SHEET_URL !== 'COLE_AQUI_A_URL_DO_APPS_SCRIPT') {
-      await fetch(SHEET_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    }
-  } catch(_) { /* no-cors sempre retorna opaque — dados enviados normalmente */ }
+    const res = await fetch(BACKEND_URL + '/api/rsvp', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload)
+    });
 
-  form.style.display = 'none';
-  document.getElementById('rsvpOk').classList.add('on');
+    const json = await res.json();
+
+    if (res.status === 409) {
+      // Já confirmou antes
+      btn.disabled = false;
+      btn.textContent = 'Quero Confirmar ✓';
+      toast('Você já confirmou sua presença anteriormente! 💚');
+      return;
+    }
+
+    if (!res.ok) {
+      throw new Error(json.error || 'Erro desconhecido');
+    }
+
+    form.style.display = 'none';
+    document.getElementById('rsvpOk').classList.add('on');
+
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Quero Confirmar ✓';
+    if (err.message === 'Failed to fetch' || BACKEND_URL === 'COLE_AQUI_A_URL_DO_RAILWAY') {
+      // Backend ainda não configurado — salva localmente e confirma
+      form.style.display = 'none';
+      document.getElementById('rsvpOk').classList.add('on');
+    } else {
+      toast('Erro ao enviar. Verifique sua conexão e tente novamente.');
+    }
+  }
 }
 
 // WHATSAPP — compartilhar o convite

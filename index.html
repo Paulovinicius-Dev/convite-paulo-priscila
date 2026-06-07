@@ -20,7 +20,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;500&family=Dancing+Script:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -82,7 +82,7 @@ a{color:inherit;text-decoration:none}
 
 /* Monograma oval no topo */
 .sp-mono-badge{
-  width:74px;height:88px;
+  width:90px;height:108px;
   border:1.5px solid rgba(107,122,79,.5);
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
@@ -91,10 +91,10 @@ a{color:inherit;text-decoration:none}
   margin-bottom:1rem;
   animation:scaleIn .7s cubic-bezier(.34,1.56,.64,1) .1s both;
 }
-.sp-mono-text{font-family:var(--ft);font-style:italic;font-size:1.6rem;font-weight:300;color:var(--ol);letter-spacing:.04em}
+.sp-mono-text{font-family:'Cinzel',serif;font-size:1.7rem;font-weight:400;font-style:normal;color:var(--td);letter-spacing:.12em}
 
 /* Textos acima do envelope */
-.sp-querido{font-family:var(--fs);font-size:clamp(2rem,8vw,2.9rem);font-weight:600;color:var(--td);line-height:1.05;margin-bottom:.28rem;animation:fadeDown .8s ease .3s both}
+.sp-querido{font-family:'Great Vibes',cursive;font-size:clamp(2.6rem,9vw,3.6rem);font-weight:400;color:var(--td);line-height:1.05;margin-bottom:.28rem;animation:fadeDown .8s ease .3s both}
 .sp-tagline{font-family:var(--ft);font-style:italic;font-size:.95rem;color:var(--tm);margin-bottom:1.6rem;animation:fadeIn .8s ease .55s both}
 
 /* Envelope SVG wrapper */
@@ -266,6 +266,18 @@ section{position:relative;overflow:hidden}
 .ev-detail{font-family:var(--fb);font-size:.8rem;font-weight:300;color:var(--tm);line-height:1.8}
 .ev-detail strong{color:var(--td);font-weight:500}
 
+/* Card de pagamento */
+.ev-payment-card{background:var(--ol);padding:2.4rem 2rem;text-align:center}
+.ev-payment-inner{display:flex;flex-direction:column;align-items:center;gap:.4rem;max-width:640px;margin:0 auto}
+.ev-payment-inner .ev-ic{font-size:2.2rem;margin-bottom:.3rem}
+.ev-payment-inner .ev-tag{background:rgba(255,255,255,.15);color:rgba(255,255,255,.9)}
+.ev-payment-inner .ev-title{color:var(--w)}
+.ev-payment-inner .ev-detail{color:rgba(255,255,255,.82)}
+.ev-payment-inner .ev-detail strong{color:var(--w)}
+.ev-price-box{display:inline-flex;flex-direction:column;align-items:center;gap:.3rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:1rem 2.5rem;margin-top:.4rem}
+.ev-price-label{font-family:var(--fb);font-size:.58rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.ev-price-value{font-family:var(--ft);font-size:clamp(1.4rem,3vw,2rem);font-weight:300;font-style:italic;color:var(--gd2);letter-spacing:.04em}
+
 /* ══════════════════════════════
    PALETA DO CASAMENTO
 ══════════════════════════════ */
@@ -358,6 +370,19 @@ section{position:relative;overflow:hidden}
 /* TOAST */
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ol);color:var(--w);padding:.7rem 1.8rem;font-family:var(--fb);font-size:.76rem;letter-spacing:.1em;z-index:9999;transition:transform .4s ease;border-radius:2px}
 .toast.on{transform:translateX(-50%) translateY(0)}
+
+/* WHATSAPP FLOAT */
+.wa-float{position:fixed;bottom:2rem;right:2rem;z-index:200;display:flex;flex-direction:column;align-items:flex-end;gap:.5rem}
+.wa-btn{width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(37,211,102,.4);cursor:pointer;transition:transform .3s ease,box-shadow .3s ease;border:none}
+.wa-btn:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(37,211,102,.5)}
+.wa-btn svg{width:28px;height:28px;fill:#fff}
+.wa-label{background:rgba(0,0,0,.68);color:#fff;font-family:var(--fb);font-size:.62rem;letter-spacing:.08em;padding:.28rem .7rem;border-radius:3px;white-space:nowrap;opacity:0;transform:translateX(8px);transition:all .3s ease;pointer-events:none}
+.wa-float:hover .wa-label{opacity:1;transform:translateX(0)}
+
+/* Loading state botão RSVP */
+.btn-sub:disabled{opacity:.65;cursor:not-allowed}
+.btn-sub.loading::after{content:' ⟳';display:inline-block;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* ══════════════════════════════
    RESPONSIVE
@@ -519,7 +544,7 @@ section{position:relative;overflow:hidden}
       <!-- Textura serrilhada do lacre (raios) -->
       <circle cx="170" cy="118" r="26" fill="none" stroke="rgba(168,131,62,.4)" stroke-width="2.5" stroke-dasharray="3.2 3.2"/>
       <!-- Monograma no lacre -->
-      <text x="170" y="124" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="14" font-weight="400" font-style="italic" fill="rgba(255,255,255,.92)" letter-spacing="1">P&amp;P</text>
+      <text x="170" y="125" text-anchor="middle" font-family="'Dancing Script',cursive" font-size="18" font-weight="600" fill="rgba(255,255,255,.95)" letter-spacing="1">P&amp;P</text>
     </svg>
 
     <button class="btn-open" onclick="openInvite()">Abrir Convite</button>
@@ -775,6 +800,33 @@ section{position:relative;overflow:hidden}
         <p class="ev-detail" style="margin-top:.8rem;color:var(--ol);font-style:italic">Pedimos evitar branco e preto</p>
       </div>
     </div>
+
+    <!-- Card de investimento -->
+    <div class="ev-payment-card reveal" style="margin-top:1.8rem">
+      <div class="ev-payment-inner">
+        <span class="ev-ic">🍽️</span>
+        <div>
+          <div class="ev-tag" style="margin-bottom:.7rem">Investimento por Pessoa</div>
+          <h3 class="ev-title" style="font-size:clamp(1.3rem,3vw,1.8rem);margin-bottom:.7rem">O jantar será à vontade</h3>
+          <p class="ev-detail" style="max-width:600px;margin:0 auto .9rem">
+            Nossa cerimônia e a comemoração acontecerão no Coco Bambu DF Plaza.
+          </p>
+          <p class="ev-detail" style="max-width:600px;margin:0 auto .9rem">
+            Como todo o evento será realizado no restaurante, a participação e o buffet (com comida e bebidas inclusas) funcionam por adesão prévia.
+          </p>
+          <p class="ev-detail" style="max-width:600px;margin:0 auto .9rem">
+            Como o local exige o pagamento antecipado para a reserva do espaço e a liberação da entrada dos convidados, pedimos a gentileza de confirmar sua presença e realizar o pagamento até <strong>agosto de 2026</strong>.
+          </p>
+          <div class="ev-price-box">
+            <span class="ev-price-label">Valor por pessoa</span>
+            <span class="ev-price-value" id="valorPessoa">A confirmar em breve</span>
+          </div>
+          <p class="ev-detail" style="margin-top:.9rem;font-size:.75rem;color:var(--tl)">
+            Em caso de dúvidas sobre o pagamento, entre em contato diretamente com os noivos.
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -938,10 +990,17 @@ section{position:relative;overflow:hidden}
           </div>
         </div>
         <div class="f-group">
+          <label class="f-label">Pagamento já realizado? (PIX)</label>
+          <div class="radio-g">
+            <label class="radio-l"><input type="radio" name="pagamento" value="sim"> Sim, já paguei</label>
+            <label class="radio-l"><input type="radio" name="pagamento" value="nao" checked> Ainda não realizei</label>
+          </div>
+        </div>
+        <div class="f-group">
           <label class="f-label" for="msg">Mensagem aos Noivos</label>
           <textarea class="f-textarea" id="msg" name="msg" placeholder="Deixe uma mensagem carinhosa para Paulo e Priscila..."></textarea>
         </div>
-        <button type="submit" class="btn-sub">Quero Confirmar ✓</button>
+        <button type="submit" class="btn-sub" id="btnSubmit">Quero Confirmar ✓</button>
       </form>
       <div class="f-ok" id="rsvpOk">
         <div class="f-ok-ic">💚</div>
@@ -1010,6 +1069,16 @@ section{position:relative;overflow:hidden}
 
 <div class="toast" id="toast"></div>
 
+<!-- Botão flutuante WhatsApp -->
+<div class="wa-float">
+  <span class="wa-label">Compartilhar convite</span>
+  <button class="wa-btn" onclick="whatsappShare()" aria-label="Compartilhar no WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+  </button>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const PIX = 'casamentopriepaulo007@gmail.com';
@@ -1067,11 +1136,62 @@ function nextPhoto() { const imgs = getImgs(); if (!imgs.length) return; lbIdx =
 document.getElementById('lbox').addEventListener('click', e => { if (e.target === e.currentTarget) closeLightbox(); });
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeLightbox(); if (e.key==='ArrowLeft') prevPhoto(); if (e.key==='ArrowRight') nextPhoto(); });
 
-// RSVP
-function submitRsvp(e) {
+// ─── CONFIGURAÇÃO GOOGLE SHEETS ───────────────────────────────────────────
+// Após criar o Apps Script, cole a URL aqui:
+const SHEET_URL = 'COLE_AQUI_A_URL_DO_APPS_SCRIPT';
+// ──────────────────────────────────────────────────────────────────────────
+
+// RSVP — envia para Google Sheets e mostra confirmação
+async function submitRsvp(e) {
   e.preventDefault();
-  document.getElementById('rsvpForm').style.display = 'none';
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.classList.add('loading');
+  btn.textContent = 'Enviando...';
+
+  const form = document.getElementById('rsvpForm');
+  const pagRadio = form.querySelector('input[name="pagamento"]:checked');
+  const presRadio = form.querySelector('input[name="presenca"]:checked');
+
+  const data = {
+    data_hora: new Date().toLocaleString('pt-BR', {timeZone:'America/Sao_Paulo'}),
+    nome:         form.nome.value,
+    whatsapp:     form.tel.value,
+    email:        form.email.value,
+    presenca:     presRadio ? (presRadio.value === 'sim' ? '✅ Confirmado' : '❌ Não vai') : '',
+    acompanhantes: form.acomp.value,
+    restricoes:   form.rest.value,
+    pagamento:    pagRadio ? (pagRadio.value === 'sim' ? '💰 Pago' : '⏳ Pendente') : '⏳ Pendente',
+    mensagem:     form.msg.value
+  };
+
+  try {
+    if (SHEET_URL !== 'COLE_AQUI_A_URL_DO_APPS_SCRIPT') {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    }
+  } catch(_) { /* no-cors sempre retorna opaque — dados enviados normalmente */ }
+
+  form.style.display = 'none';
   document.getElementById('rsvpOk').classList.add('on');
+}
+
+// WHATSAPP — compartilhar o convite
+function whatsappShare() {
+  const url = window.location.href.split('?')[0];
+  const msg = encodeURIComponent(
+    '🌿 *Convite de Casamento* 🌿\n\n' +
+    'Com alegria, convidamos você para celebrar conosco!\n\n' +
+    '💍 *Paulo Vinicius & Priscila Soares*\n' +
+    '📅 02 de Setembro de 2026\n' +
+    '📍 Coco Bambu DF Plaza — Brasília, DF\n\n' +
+    'Acesse o convite completo:\n' + url
+  );
+  window.open('https://wa.me/?text=' + msg, '_blank');
 }
 
 // PIX

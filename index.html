@@ -277,6 +277,11 @@ section{position:relative;overflow:hidden}
 .ev-price-box{display:inline-flex;flex-direction:column;align-items:center;gap:.3rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:1rem 2.5rem;margin-top:.4rem}
 .ev-price-label{font-family:var(--fb);font-size:.58rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.7)}
 .ev-price-value{font-family:var(--ft);font-size:clamp(1.4rem,3vw,2rem);font-weight:300;font-style:italic;color:var(--gd2);letter-spacing:.04em}
+.ev-price-kids{display:flex;flex-direction:column;gap:.5rem;margin-top:.8rem;width:100%;max-width:340px}
+.ev-price-kid{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:.55rem 1rem;gap:1rem}
+.ev-kid-label{font-family:var(--fb);font-size:.7rem;font-weight:400;color:rgba(255,255,255,.75);text-align:left}
+.ev-kid-val{font-family:var(--ft);font-size:1rem;font-weight:400;font-style:italic;color:var(--gd2);white-space:nowrap}
+.ev-kid-val small{font-size:.7rem;opacity:.7}
 
 /* ══════════════════════════════
    PALETA DO CASAMENTO
@@ -818,8 +823,18 @@ section{position:relative;overflow:hidden}
             Como o local exige o pagamento antecipado para a reserva do espaço e a liberação da entrada dos convidados, pedimos a gentileza de confirmar sua presença e realizar o pagamento até <strong>agosto de 2026</strong>.
           </p>
           <div class="ev-price-box">
-            <span class="ev-price-label">Valor por pessoa</span>
-            <span class="ev-price-value" id="valorPessoa">A confirmar em breve</span>
+            <span class="ev-price-label">Adultos</span>
+            <span class="ev-price-value">R$ 147,00</span>
+          </div>
+          <div class="ev-price-kids">
+            <div class="ev-price-kid">
+              <span class="ev-kid-label">Crianças de 0 a 5 anos</span>
+              <span class="ev-kid-val">Gratuito</span>
+            </div>
+            <div class="ev-price-kid">
+              <span class="ev-kid-label">Crianças de 6 a 10 anos</span>
+              <span class="ev-kid-val">R$ 73,50 <small>(50%)</small></span>
+            </div>
           </div>
           <p class="ev-detail" style="margin-top:.9rem;font-size:.75rem;color:var(--tl)">
             Em caso de dúvidas sobre o pagamento, entre em contato diretamente com os noivos.

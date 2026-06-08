@@ -679,7 +679,7 @@ section{position:relative;overflow:hidden}
         </div>
         <div class="tl-node"><div class="tl-dot"></div></div>
         <div class="tl-img">
-          <img src="fotos/encontro.jpg" alt="Primeiro Encontro — Paulo e Priscila na Nicolândia" style="object-position:center top">
+          <img src="fotos/encontro.jpg" alt="Primeiro Encontro — Paulo e Priscila na Nicolândia" style="object-position:center center">
         </div>
       </div>
       <div class="tl-item reveal">
@@ -783,7 +783,7 @@ section{position:relative;overflow:hidden}
         <p class="ev-detail"><strong>Quarta‑feira, 02 de Setembro de 2026</strong></p>
         <p class="ev-detail" style="margin-top:.5rem"><strong>20h00</strong></p>
         <p class="ev-detail" style="margin-top:.6rem">Coco Bambu DF Plaza</p>
-        <p class="ev-detail">SCN Qd. 2, Lote 11/12<br>Asa Norte · Brasília · DF</p>
+        <p class="ev-detail">SCN Qd. 2, Lote 11/12<br>Águas Claras · Brasília · DF</p>
       </div>
       <div class="ev-card reveal d2" style="background:var(--wi)">
         <span class="ev-ic">💍</span>
@@ -793,7 +793,7 @@ section{position:relative;overflow:hidden}
         <p class="ev-detail"><strong>Quarta‑feira, 02 de Setembro de 2026</strong></p>
         <p class="ev-detail" style="margin-top:.5rem"><strong>21h00</strong></p>
         <p class="ev-detail" style="margin-top:.6rem">Coco Bambu DF Plaza</p>
-        <p class="ev-detail">SCN Qd. 2, Lote 11/12<br>Asa Norte · Brasília · DF</p>
+        <p class="ev-detail">SCN Qd. 2, Lote 11/12<br>Águas Claras · Brasília · DF</p>
       </div>
       <div class="ev-card reveal d3">
         <span class="ev-ic">👔</span>
@@ -802,7 +802,6 @@ section{position:relative;overflow:hidden}
         <div class="ev-divider"></div>
         <p class="ev-detail"><strong>Homens:</strong> blazer ou terno sem gravata</p>
         <p class="ev-detail" style="margin-top:.6rem"><strong>Mulheres:</strong> vestido midi, longo ou conjunto elegante</p>
-        <p class="ev-detail" style="margin-top:.8rem;color:var(--ol);font-style:italic">Pedimos evitar branco e preto</p>
       </div>
     </div>
 
@@ -836,7 +835,7 @@ section{position:relative;overflow:hidden}
               <span class="ev-kid-val">R$ 73,50 <small>(50%)</small></span>
             </div>
           </div>
-          <p class="ev-detail" style="margin-top:.9rem;font-size:.75rem;color:var(--tl)">
+          <p class="ev-detail" style="margin-top:.9rem;font-size:.78rem;color:rgba(255,255,255,.85)">
             Em caso de dúvidas sobre o pagamento, entre em contato diretamente com os noivos.
           </p>
         </div>
@@ -944,7 +943,7 @@ section{position:relative;overflow:hidden}
         <p class="loc-addr">
           <strong>Endereço:</strong><br>
           SCN Quadra 2, Lote 11/12<br>
-          Asa Norte, Brasília – DF<br>
+          Águas Claras, Brasília – DF<br>
           CEP: 70712-905
         </p>
         <a href="https://www.google.com/maps/search/Coco+Bambu+DF+Plaza+Brasilia" target="_blank" rel="noopener" class="btn-dir">📍 Como Chegar</a>
@@ -1151,12 +1150,14 @@ function nextPhoto() { const imgs = getImgs(); if (!imgs.length) return; lbIdx =
 document.getElementById('lbox').addEventListener('click', e => { if (e.target === e.currentTarget) closeLightbox(); });
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeLightbox(); if (e.key==='ArrowLeft') prevPhoto(); if (e.key==='ArrowRight') nextPhoto(); });
 
-// ─── CONFIGURAÇÃO DO BACKEND ───────────────────────────────────────────────
-// Após deploy no Railway, cole a URL aqui:
+// ─── CONFIGURAÇÃO ─────────────────────────────────────────────────────────
+// 1. Backend Railway (principal) — cole a URL quando estiver no ar:
 const BACKEND_URL = 'COLE_AQUI_A_URL_DO_RAILWAY';
+
+// 2. Google Sheets (fallback enquanto Railway não está configurado):
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyuWvqm6t-v7AIkkyXjYCAStD03Dhs3aEJpRPB3F2fXvJynwzZ0jyhCh--10yI-0KMKOw/exec';
 // ──────────────────────────────────────────────────────────────────────────
 
-// RSVP — envia para backend seguro no Railway
 async function submitRsvp(e) {
   e.preventDefault();
   const btn  = document.getElementById('btnSubmit');
@@ -1166,53 +1167,72 @@ async function submitRsvp(e) {
 
   const presRadio = form.querySelector('input[name="presenca"]:checked');
   const pagRadio  = form.querySelector('input[name="pagamento"]:checked');
+  const presVal   = presRadio ? presRadio.value : 'nao';
+  const pagVal    = pagRadio  ? pagRadio.value  : 'nao';
 
   const payload = {
     nome:          form.nome.value.trim(),
     whatsapp:      form.tel.value.trim(),
     email:         form.email.value.trim(),
-    presenca:      presRadio ? presRadio.value : 'nao',
+    presenca:      presVal,
     acompanhantes: parseInt(form.acomp.value) || 0,
     restricoes:    form.rest.value.trim(),
-    pagamento:     pagRadio ? pagRadio.value : 'nao',
+    pagamento:     pagVal,
     mensagem:      form.msg.value.trim()
   };
 
-  try {
-    const res = await fetch(BACKEND_URL + '/api/rsvp', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify(payload)
-    });
+  const backendPronto = BACKEND_URL !== 'COLE_AQUI_A_URL_DO_RAILWAY';
 
-    const json = await res.json();
+  // ── Tenta Railway (quando estiver configurado) ──
+  if (backendPronto) {
+    try {
+      const res  = await fetch(BACKEND_URL + '/api/rsvp', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+      });
+      const json = await res.json();
 
-    if (res.status === 409) {
-      // Já confirmou antes
-      btn.disabled = false;
-      btn.textContent = 'Quero Confirmar ✓';
-      toast('Você já confirmou sua presença anteriormente! 💚');
-      return;
-    }
-
-    if (!res.ok) {
-      throw new Error(json.error || 'Erro desconhecido');
-    }
-
-    form.style.display = 'none';
-    document.getElementById('rsvpOk').classList.add('on');
-
-  } catch (err) {
-    btn.disabled = false;
-    btn.textContent = 'Quero Confirmar ✓';
-    if (err.message === 'Failed to fetch' || BACKEND_URL === 'COLE_AQUI_A_URL_DO_RAILWAY') {
-      // Backend ainda não configurado — salva localmente e confirma
-      form.style.display = 'none';
-      document.getElementById('rsvpOk').classList.add('on');
-    } else {
-      toast('Erro ao enviar. Verifique sua conexão e tente novamente.');
+      if (res.status === 409) {
+        btn.disabled = false;
+        btn.textContent = 'Quero Confirmar ✓';
+        toast('Você já confirmou sua presença anteriormente! 💚');
+        return;
+      }
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('rsvpOk').classList.add('on');
+        return;
+      }
+      throw new Error(json.error || 'Erro');
+    } catch (_) {
+      // se Railway falhar, cai no fallback abaixo
     }
   }
+
+  // ── Fallback: Google Sheets ─────────────────────
+  try {
+    const sheetsPayload = {
+      data_hora:     new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+      nome:          payload.nome,
+      whatsapp:      payload.whatsapp,
+      email:         payload.email,
+      presenca:      presVal === 'sim' ? '✅ Confirmado' : '❌ Não vai',
+      acompanhantes: payload.acompanhantes,
+      restricoes:    payload.restricoes,
+      pagamento:     pagVal === 'sim' ? '💰 Pago' : '⏳ Pendente',
+      mensagem:      payload.mensagem
+    };
+    await fetch(SHEETS_URL, {
+      method: 'POST',
+      mode:   'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body:   JSON.stringify(sheetsPayload)
+    });
+  } catch (_) { /* no-cors — dados enviados normalmente */ }
+
+  form.style.display = 'none';
+  document.getElementById('rsvpOk').classList.add('on');
 }
 
 // WHATSAPP — compartilhar o convite
@@ -1239,7 +1259,7 @@ function copyPix() {
   }).catch(() => toast('Copie a chave manualmente'));
 }
 function copyAddr() {
-  navigator.clipboard.writeText('Coco Bambu DF Plaza — SCN Quadra 2, Lote 11/12, Asa Norte, Brasília - DF, CEP 70712-905')
+  navigator.clipboard.writeText('Coco Bambu DF Plaza — SCN Quadra 2, Lote 11/12, Águas Claras, Brasília - DF, CEP 70712-905')
     .then(() => toast('Endereço copiado! 📍'))
     .catch(() => toast('Copie o endereço manualmente'));
 }

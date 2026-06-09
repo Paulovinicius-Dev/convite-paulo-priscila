@@ -386,6 +386,16 @@ section{position:relative;overflow:hidden}
 .wa-label{background:rgba(0,0,0,.68);color:#fff;font-family:var(--fb);font-size:.62rem;letter-spacing:.08em;padding:.28rem .7rem;border-radius:3px;white-space:nowrap;opacity:0;transform:translateX(8px);transition:all .3s ease;pointer-events:none}
 .wa-float:hover .wa-label{opacity:1;transform:translateX(0)}
 
+/* Acompanhantes */
+.acomp-card{background:var(--wi);border:1px solid var(--border);padding:1.1rem 1.2rem;margin-bottom:.8rem;position:relative}
+.acomp-card .acomp-num{font-family:var(--fb);font-size:.58rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ol);margin-bottom:.7rem}
+.acomp-row{display:grid;grid-template-columns:1fr 80px 1fr;gap:.7rem}
+.acomp-remove{position:absolute;top:.6rem;right:.8rem;background:none;border:none;color:var(--tl);font-size:.85rem;cursor:pointer;transition:color .2s}
+.acomp-remove:hover{color:#b00}
+.btn-add-acomp{display:block;width:100%;padding:.7rem;background:transparent;border:1px dashed var(--sg);color:var(--ol);font-family:var(--fb);font-size:.65rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .3s;margin-bottom:.8rem}
+.btn-add-acomp:hover{background:var(--wi);border-color:var(--ol)}
+@media(max-width:640px){.acomp-row{grid-template-columns:1fr 70px}}
+
 /* Loading state botão RSVP */
 .btn-sub:disabled{opacity:.65;cursor:not-allowed}
 .btn-sub.loading::after{content:' ⟳';display:inline-block;animation:spin .8s linear infinite}
@@ -993,6 +1003,19 @@ section{position:relative;overflow:hidden}
             <label class="radio-l"><input type="radio" name="presenca" value="nao"> Não poderei comparecer</label>
           </div>
         </div>
+        <!-- Acompanhantes -->
+        <div class="f-group">
+          <label class="f-label">Levará acompanhante(s)?</label>
+          <div class="radio-g">
+            <label class="radio-l"><input type="radio" name="tem_acomp" value="sim" onchange="toggleAcomp(true)"> Sim</label>
+            <label class="radio-l"><input type="radio" name="tem_acomp" value="nao" onchange="toggleAcomp(false)" checked> Não</label>
+          </div>
+        </div>
+        <div id="acomp-section" style="display:none">
+          <div id="acomp-list"></div>
+          <button type="button" class="btn-add-acomp" onclick="addAcomp()">+ Adicionar acompanhante</button>
+        </div>
+
         <div class="f-group">
           <label class="f-label" for="rest">Restrições Alimentares</label>
           <input class="f-input" type="text" id="rest" name="rest" placeholder="Ex: vegetariano, alergia...">
@@ -1169,7 +1192,7 @@ async function submitRsvp(e) {
     whatsapp:      form.tel.value.trim(),
     email:         form.email.value.trim(),
     presenca:      presVal,
-    acompanhantes: parseInt(form.acomp.value) || 0,
+    acompanhantes: getAcompanhantes() || 'Nenhum',
     restricoes:    form.rest.value.trim(),
     pagamento:     pagVal,
     mensagem:      form.msg.value.trim()
@@ -1241,6 +1264,62 @@ function whatsappShare() {
     'Acesse o convite completo:\n' + url
   );
   window.open('https://wa.me/?text=' + msg, '_blank');
+}
+
+// ACOMPANHANTES
+let acompCount = 0;
+function toggleAcomp(show) {
+  document.getElementById('acomp-section').style.display = show ? 'block' : 'none';
+  if (!show) { document.getElementById('acomp-list').innerHTML = ''; acompCount = 0; }
+  else if (acompCount === 0) addAcomp();
+}
+function addAcomp() {
+  if (acompCount >= 6) { toast('Máximo de 6 acompanhantes'); return; }
+  acompCount++;
+  const n = acompCount;
+  const div = document.createElement('div');
+  div.className = 'acomp-card';
+  div.id = 'acomp-' + n;
+  div.innerHTML = `
+    <div class="acomp-num">Acompanhante ${n}</div>
+    <button type="button" class="acomp-remove" onclick="removeAcomp(${n})" title="Remover">✕</button>
+    <div class="acomp-row">
+      <div class="f-group" style="margin:0">
+        <label class="f-label" style="font-size:.6rem">Nome completo *</label>
+        <input class="f-input" type="text" id="acomp-nome-${n}" placeholder="Nome do acompanhante" required>
+      </div>
+      <div class="f-group" style="margin:0">
+        <label class="f-label" style="font-size:.6rem">Idade</label>
+        <input class="f-input" type="number" id="acomp-idade-${n}" placeholder="Ex: 8" min="0" max="120">
+      </div>
+      <div class="f-group" style="margin:0">
+        <label class="f-label" style="font-size:.6rem">Parentesco</label>
+        <select class="f-select" id="acomp-rel-${n}">
+          <option value="Cônjuge">Cônjuge</option>
+          <option value="Filho(a)">Filho(a)</option>
+          <option value="Namorado(a)">Namorado(a)</option>
+          <option value="Amigo(a)">Amigo(a)</option>
+          <option value="Familiar">Familiar</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+    </div>`;
+  document.getElementById('acomp-list').appendChild(div);
+}
+function removeAcomp(n) {
+  const el = document.getElementById('acomp-' + n);
+  if (el) { el.remove(); acompCount = Math.max(0, acompCount - 1); }
+}
+function getAcompanhantes() {
+  const list = [];
+  document.querySelectorAll('.acomp-card').forEach(card => {
+    const id = card.id.replace('acomp-', '');
+    const nome  = document.getElementById('acomp-nome-' + id)?.value.trim();
+    const idade = document.getElementById('acomp-idade-' + id)?.value;
+    const rel   = document.getElementById('acomp-rel-'  + id)?.value;
+    if (nome) list.push(`${nome} (${rel}${idade ? ', ' + idade + ' anos' : ''})`);
+  });
+  return list.join(' | ');
 }
 
 // PIX — copia o código Pix Copia e Cola (funciona em qualquer banco)

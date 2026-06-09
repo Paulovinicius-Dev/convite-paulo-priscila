@@ -266,6 +266,12 @@ section{position:relative;overflow:hidden}
 .ev-detail{font-family:var(--fb);font-size:.8rem;font-weight:300;color:var(--tm);line-height:1.8}
 .ev-detail strong{color:var(--td);font-weight:500}
 
+/* Faixa versículo */
+.verse-band{background:var(--ol);padding:2.2rem 2rem;display:flex;align-items:center;justify-content:center;gap:1.4rem;flex-wrap:wrap;text-align:center}
+.verse-ic{color:var(--gd);font-size:.9rem;flex-shrink:0;opacity:.8}
+.verse-text{font-family:var(--ft);font-style:italic;font-size:clamp(.95rem,2.2vw,1.15rem);font-weight:300;color:rgba(255,255,255,.93);line-height:1.7;max-width:700px;margin:0}
+.verse-ref{font-family:var(--fb);font-size:.6rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--gd);display:block;margin-top:.5rem;width:100%}
+
 /* Card de pagamento */
 .ev-payment-card{background:var(--ol);padding:2.4rem 2rem;text-align:center}
 .ev-payment-inner{display:flex;flex-direction:column;align-items:center;gap:.4rem;max-width:640px;margin:0 auto}
@@ -658,6 +664,18 @@ section{position:relative;overflow:hidden}
     <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
   </div>
 </section>
+
+<!-- ══════════════════════════════
+     FAIXA VERSÍCULO
+══════════════════════════════ -->
+<div class="verse-band">
+  <span class="verse-ic">✦</span>
+  <blockquote class="verse-text">
+    "Para que todos vejam, e saibam, e considerem, e juntamente entendam que a mão do Senhor fez isto, e o Santo de Israel o criou"
+  </blockquote>
+  <cite class="verse-ref">Isaías 41:20</cite>
+  <span class="verse-ic">✦</span>
+</div>
 
 <!-- ══════════════════════════════
      NOSSA HISTÓRIA

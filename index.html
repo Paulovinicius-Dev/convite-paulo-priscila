@@ -93,6 +93,8 @@ a{color:inherit;text-decoration:none}
 }
 .sp-mono-text{font-family:'Cinzel',serif;font-size:1.7rem;font-weight:400;font-style:normal;color:var(--td);letter-spacing:.12em}
 .sp-mono-amp{font-family:'Great Vibes',cursive;font-size:2.2rem;font-weight:400;letter-spacing:0;vertical-align:middle;line-height:1}
+.hero-frame-mono .sp-mono-amp{font-size:3.4rem}
+.nav-logo .sp-mono-amp{font-size:2rem}
 
 /* Textos acima do envelope */
 .sp-querido{font-family:'Great Vibes',cursive;font-size:clamp(2.6rem,9vw,3.6rem);font-weight:400;color:var(--td);line-height:1.05;margin-bottom:.28rem;animation:fadeDown .8s ease .3s both}
@@ -172,7 +174,7 @@ section{position:relative;overflow:hidden}
 
 .h-ey{display:block;font-family:var(--fb);font-size:.6rem;letter-spacing:.45em;text-transform:uppercase;color:var(--ol);margin-bottom:1.2rem}
 .h-names{font-family:var(--fs);font-size:clamp(3rem,8vw,5.5rem);font-weight:700;color:var(--td);line-height:1}
-.h-amp{color:var(--ol)}
+.h-amp{color:var(--ol);font-family:'Great Vibes',cursive;font-weight:400}
 .h-divline{display:flex;align-items:center;justify-content:center;gap:1rem;margin:1.5rem auto}
 .h-dl{width:70px;height:1px;background:linear-gradient(to right,transparent,var(--sg))}
 .h-dl.r{background:linear-gradient(to left,transparent,var(--sg))}
@@ -565,7 +567,9 @@ section{position:relative;overflow:hidden}
       <!-- Textura serrilhada do lacre (raios) -->
       <circle cx="170" cy="118" r="26" fill="none" stroke="rgba(168,131,62,.4)" stroke-width="2.5" stroke-dasharray="3.2 3.2"/>
       <!-- Monograma no lacre -->
-      <text x="170" y="125" text-anchor="middle" font-family="'Dancing Script',cursive" font-size="18" font-weight="600" fill="rgba(255,255,255,.95)" letter-spacing="1">P&amp;P</text>
+      <text text-anchor="middle" fill="rgba(255,255,255,.95)">
+        <tspan x="170" y="126" font-family="'Cinzel',serif" font-size="15" font-weight="400">P</tspan><tspan font-family="'Great Vibes',cursive" font-size="22" font-weight="400" dy="3"> &amp; </tspan><tspan font-family="'Cinzel',serif" font-size="15" font-weight="400" dy="-3">P</tspan>
+      </text>
     </svg>
 
     <button class="btn-open" onclick="openInvite()">Abrir Convite</button>
@@ -576,7 +580,7 @@ section{position:relative;overflow:hidden}
      NAV
 ══════════════════════════════ -->
 <nav id="nav">
-  <div class="nav-logo">P&amp;P</div>
+  <div class="nav-logo">P<span class="sp-mono-amp">&amp;</span>P</div>
   <ul class="nav-links">
     <li><a href="#historia">Nossa História</a></li>
     <li><a href="#galeria">Galeria</a></li>
@@ -648,7 +652,7 @@ section{position:relative;overflow:hidden}
   </svg>
 
   <div class="hc reveal">
-    <div class="hero-frame"><span class="hero-frame-mono">P&amp;P</span></div>
+    <div class="hero-frame"><span class="hero-frame-mono">P<span class="sp-mono-amp">&amp;</span>P</span></div>
     <span class="h-ey">02 de Setembro de 2026 · Brasília, DF</span>
     <h1 class="h-names">Paulo<br><span class="h-amp">&amp;</span><br>Priscila</h1>
     <div class="h-divline">

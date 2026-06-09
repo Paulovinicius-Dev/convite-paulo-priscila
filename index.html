@@ -1250,14 +1250,17 @@ function whatsappShare() {
   window.open('https://wa.me/?text=' + msg, '_blank');
 }
 
-// PIX
+// PIX — copia o código Pix Copia e Cola (funciona em qualquer banco)
 function copyPix() {
-  navigator.clipboard.writeText(PIX).then(() => {
-    toast('Chave PIX copiada! 💚');
+  const payload = pixBrCode(PIX, 'Paulo e Priscila', 'Brasilia');
+  navigator.clipboard.writeText(payload).then(() => {
+    toast('PIX Copia e Cola copiado! 💚');
     const b = document.getElementById('btnPix');
-    b.textContent = '✓ Chave Copiada!';
+    b.textContent = '✓ Copiado!';
     setTimeout(() => b.innerHTML = '📋 Copiar Chave PIX', 3000);
-  }).catch(() => toast('Copie a chave manualmente'));
+  }).catch(() => {
+    navigator.clipboard.writeText(PIX).then(() => toast('Chave PIX copiada! 💚'));
+  });
 }
 function copyAddr() {
   navigator.clipboard.writeText('Coco Bambu DF Plaza — SCN Quadra 2, Lote 11/12, Águas Claras, Brasília - DF, CEP 70712-905')
@@ -1274,10 +1277,47 @@ function toast(msg) {
   toastTmr = setTimeout(() => el.classList.remove('on'), 3000);
 }
 
-// QR CODE
+// QR CODE PIX — formato BR Code (padrão Banco Central)
+function crc16(str) {
+  let crc = 0xFFFF;
+  for (let i = 0; i < str.length; i++) {
+    crc ^= str.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++) {
+      crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : crc << 1;
+    }
+    crc &= 0xFFFF;
+  }
+  return crc.toString(16).toUpperCase().padStart(4, '0');
+}
+
+function pixBrCode(chave, nome, cidade) {
+  const f = (id, v) => id + String(v.length).padStart(2, '0') + v;
+  const gui = f('00', 'BR.GOV.BCB.PIX') + f('01', chave);
+  const add = f('05', '***');
+  const body =
+    f('00', '01') +
+    f('26', gui) +
+    f('52', '0000') +
+    f('53', '986') +
+    f('58', 'BR') +
+    f('59', nome.substring(0, 25)) +
+    f('60', cidade.substring(0, 15)) +
+    f('62', add) +
+    '6304';
+  return body + crc16(body);
+}
+
 window.addEventListener('load', () => {
+  const payload = pixBrCode(PIX, 'Paulo e Priscila', 'Brasilia');
   try {
-    new QRCode(document.getElementById('qr-el'), { text: PIX, width: 130, height: 130, colorDark: '#6B7A4F', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H });
+    new QRCode(document.getElementById('qr-el'), {
+      text: payload,
+      width: 140,
+      height: 140,
+      colorDark: '#6B7A4F',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
   } catch(e) {
     document.getElementById('qr-el').innerHTML = '<p style="font-size:.65rem;color:#AAB49B;text-align:center;padding:.5rem">QR Code PIX</p>';
   }
